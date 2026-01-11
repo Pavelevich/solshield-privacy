@@ -8,63 +8,7 @@ import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
 import type { PrivacyAnalysis } from '@/types/privacy';
 
-// Mock data for demo (replace with actual API call)
-const mockAnalysis: PrivacyAnalysis = {
-  advancedPrivacyScore: 55,
-  grade: 'D',
-  riskLevel: 'MEDIUM',
-  entropy: { totalEntropy: 0.65 },
-  mutualInformation: { totalMutualInformation: 0.3 },
-  differentialPrivacy: { epsilon: 2.3 },
-  kAnonymity: { kValue: 15, kAnonymityScore: 45 },
-  advancedClustering: { clusteringVulnerability: 0.4 },
-  temporalAnalysis: { autocorrelation: 0.2 },
-  networkCentrality: { networkVisibility: 0.35 },
-  mixerDetection: { mixerUsageProbability: 0.1 },
-  crossChain: { bridgeUsageDetected: false, detectedBridges: [] },
-  dustAttack: {
-    dustAttackDetected: true,
-    dustVulnerability: 0.7,
-    dustTransactionsReceived: 12,
-    uniqueDustSenders: 5,
-    linkingRisk: 'CRITICAL',
-  },
-  exchangeFingerprint: {
-    kycExposure: 0.08,
-    detectedExchanges: [
-      { name: 'Raydium', type: 'DEX' },
-      { name: 'Jupiter', type: 'DEX' },
-    ],
-    traceabilityRisk: 'LOW',
-  },
-  recommendations: [
-    {
-      action: 'Consider using a privacy-focused wallet or mixer',
-      impact: 'Significantly improve transaction unlinkability',
-      priority: 'HIGH',
-    },
-    {
-      action: 'Avoid reusing addresses for receiving funds',
-      impact: 'Reduces clustering vulnerability',
-      priority: 'HIGH',
-    },
-    {
-      action: 'Randomize transaction timing patterns',
-      impact: 'Makes temporal analysis more difficult',
-      priority: 'MEDIUM',
-    },
-    {
-      action: 'Do not interact with dust transactions',
-      impact: 'Prevents dust attack linking',
-      priority: 'HIGH',
-    },
-    {
-      action: 'Use DEX aggregators to obscure trading patterns',
-      impact: 'Reduces exchange fingerprinting accuracy',
-      priority: 'LOW',
-    },
-  ],
-};
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -83,15 +27,19 @@ const Index = () => {
     }, 100);
 
     try {
-      // Simulate API call with delay
-      // Replace this with actual API call:
-      // const response = await fetch(`/api/v3/analyze/${address}`);
-      // const data = await response.json();
-      
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Using mock data for demo
-      setAnalysisData(mockAnalysis);
+      const response = await fetch(`${API_URL}/api/v3/analyze/${address}`);
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Analysis failed');
+      }
+
+      setAnalysisData(result.data);
     } catch (error) {
       toast({
         title: 'Analysis Failed',
