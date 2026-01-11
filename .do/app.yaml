@@ -1,0 +1,17 @@
+# Digital Ocean App Platform spec for SolPrivacy Frontend
+name: solprivacy-frontend
+
+static_sites:
+  - name: frontend
+    github:
+      repo: Pavelevich/solshield-privacy
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    output_dir: dist
+    routes:
+      - path: /
+    envs:
+      - key: VITE_API_URL
+        scope: BUILD_TIME
+        value: ${API_URL}
