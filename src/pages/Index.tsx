@@ -8,7 +8,8 @@ import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
 import type { PrivacyAnalysis } from '@/types/privacy';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Use relative URL for API (proxied through nginx)
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,9 +76,18 @@ const Index = () => {
             <span className="gradient-text">SolPrivacy</span>
           </h1>
           
-          <p className="text-xl text-muted-foreground mb-12">
+          <p className="text-xl text-muted-foreground mb-4">
             Wallet Privacy Analyzer for Solana
           </p>
+
+          <a
+            href="https://dexscreener.com/solana/8i51xnnpgakaj4g4nddmqh95v4fkaxw8mhtarokd9te8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-12"
+          >
+            Powered by <span className="font-semibold">TETSUO</span> on Solana
+          </a>
 
           <WalletInput onAnalyze={handleAnalyze} isLoading={isLoading} />
         </motion.div>
