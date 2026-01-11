@@ -75,7 +75,11 @@ export const DustAttackAlert = ({ data }: DustAlertProps) => {
                 </div>
                 <div>
                   <span className="text-muted-foreground">Unique Senders:</span>
-                  <span className="ml-2 font-medium text-foreground">{data.uniqueDustSenders || 'N/A'}</span>
+                  <span className="ml-2 font-medium text-foreground">
+                    {Array.isArray(data.uniqueDustSenders)
+                      ? data.uniqueDustSenders.length
+                      : (data.uniqueDustSenders || 'N/A')}
+                  </span>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Vulnerability:</span>
