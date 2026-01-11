@@ -5,6 +5,7 @@ import { WalletInput } from '@/components/WalletInput';
 import { AnalysisResults } from '@/components/AnalysisResults';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';
 import { Footer } from '@/components/Footer';
+import { MatrixBackground } from '@/components/MatrixBackground';
 import { useToast } from '@/hooks/use-toast';
 import type { PrivacyAnalysis } from '@/types/privacy';
 
@@ -54,7 +55,10 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Matrix Background */}
+      <MatrixBackground />
+
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 pb-16">
         <motion.div
